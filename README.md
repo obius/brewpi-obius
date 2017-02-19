@@ -16,6 +16,7 @@ Other
 - 4.7k resistance
 - LCD Screen 4 x 20
 
+
 2. Hardware Installation
 
 3. Software Installation
