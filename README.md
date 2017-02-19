@@ -3,12 +3,12 @@
 
 Raspberry Pi
 - Raspberry Pi 
- - Power supply
- - 8 GB SD Card
+- Power supply
+- 8 GB SD Card
  
- Andruino
- - Arduino Uno
- - USB B-A Cable
+Andruino
+- Arduino Uno
+- USB B-A Cable
 
 Other
 - SSR
