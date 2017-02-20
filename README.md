@@ -28,7 +28,7 @@ Create a new file ``8192cu.conf`` in ``/etc/modprobe.d/``:
 
 .. code-block:: bash
 
-sudo nano /etc/modprobe.d/8192cu.conf
+    sudo nano /etc/modprobe.d/8192cu.conf
 
 
 3. Hardware Installation
