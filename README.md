@@ -22,7 +22,7 @@ Other
 2.1 Install Raspbian
 --------------------
 
-2.2 Config RPi
+2.2 Configure your system
 --------------
 
     sudo raspi-config
@@ -40,6 +40,42 @@ Add this line to the file and save:
 
 2.4 Setup static IP address
 ---------------------------
+
+    sudo nano /etc/network/interfaces
+
+My /etc/network/interfaces file looks like this:
+
+    auto lo
+    iface lo inet loopback
+    iface eth0 inet dhcp
+    allow-hotplug wlan0
+    auto wlan0
+    iface wlan0 inet static
+    address 192.168.0.6
+    netmask 255.255.255.0
+    gateway 192.168.0.1
+    wpa-ssid "YOUR_SSID"
+    wpa-psk "YOUR_PASSPHRASE"
+
+The right IP addresses depend on your home network setup.
+You can run ifconfig before editing the interfaces and write the automatically assigned addresses down.
+However, it is recommended to pick a static Ip address that is outside of your router's DHCP range.
+
+Finally, you will need to restart your network interfaces for these changes to occur:
+
+    sudo service networking restart
+
+2.5 Updating programs
+---------------------
+
+Keep your programs up to date with these commands:
+
+    sudo apt-get update
+    sudo apt-get upgrade
+
+
+2.6 Updating firmware
+---------------------
 
 
 
