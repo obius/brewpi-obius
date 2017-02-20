@@ -2,16 +2,19 @@
 
 #1. Required parts
 
-Raspberry Pi
+1.1 Raspberry Pi
+----------------
 - Raspberry Pi 
 - Power supply
 - 8 GB SD Card
  
-Andruino
+1.2 Andruino
+------------
 - Arduino Uno
 - USB B-A Cable
 
-Other
+1.3 Other
+---------
 - SSR
 - Temperature sensor DS18B20 
 - 4.7k resistance
@@ -118,7 +121,6 @@ Remember to select Apache2 with the space bar when it comes up! After installati
 
     sudo shutdown -r now
 
-
 The Raspbian Wheezy images comes with python 2.7 already installed, but BrewPi uses a few python modules that you have to install yourself:
 - pySerial For communication with the Arduino.
 - simplejson To encode and decode JSON objects. Easier to use than the default JSON module.
@@ -142,6 +144,63 @@ Finally, to install the BrewPi script we will use Git. In a terminal window, typ
 
     sudo apt-get install git-core
 
+2.1.8 Setting up users and permissions
+--------------------------------------
+
+For security reasons, we will run the BrewPi python script under its own user account: an account without sudo rights. We will set up the brewpi user and group now. The web interface will run under the user and group www-data. The www-data user already exists. We will add the brewpi user with useradd, which automatically creates the group brewpi as well. Additionally, we are adding the user brewpi to the www-data and dialout groups (needed for access to the /var/www/html/ dir and serial ports, respectively). Then, we set the password for the brewpi user with passwd.
+
+    sudo useradd -m -k /dev/null -G www-data,dialout brewpi
+    sudo passwd brewpi
+
+Now, verify your work:
+
+    id brewpi
+
+You should see something similar to:
+
+    uid=1001(brewpi) gid=1002(brewpi) groups=1002(brewpi),20(dialout),33(www-data)
+
+The python script will reside in the brewpi home directory. It will log data to the ./data subdirectory, keep settings in ./settings and it will copy everything the web interface needs to know to /var/www/html/ and chown it to www-data. By doing it this way, the www-data user does not have to have any rights outside its own directory. To allow the brewpi user to write to the directories owned by www-data, we will have to add it to the www-data group. We will also add the pi user to both groups to make it easier to work with the files.
+
+    sudo usermod -a -G www-data pi
+    sudo usermod -a -G brewpi pi 
+    
+To make sure that all newly created files in the www-data directory have www-data as group, even when they are created by the brewpi user, we set the sticky bit on the www-data directory and all its sub directories. We’ll set the sticky bit for the brewpi home directory as well. Run the following commands:
+
+    sudo chown -R www-data:www-data /var/www/html
+    sudo chown -R brewpi:brewpi /home/brewpi
+    sudo find /home/brewpi -type f -exec chmod g+rwx {} \;
+    sudo find /home/brewpi -type d -exec chmod g+rwxs {} \;
+    sudo find /var/www/html -type d -exec chmod g+rwxs {} \;
+    sudo find /var/www/html -type f -exec chmod g+rwx {} \;
+
+These commands do the following things:
+- Set the ownership of all files and subdirectories to brewpi and www-data (first two lines)
+- Give the group all permissions on all files (third and fourth line)
+- Give the group all permissions and set the sticky bit on all directories (fifth and sixth line).
+
+    sudo chown -R www-data:www-data /var/www/html/chamber1
+    sudo chown -R www-data:www-data /var/www/html/chamber2
+    sudo chown -R www-data:www-data /var/www/html/chamber3
+    sudo chown -R brewpi:brewpi /home/brewpi/chamber1
+    sudo chown -R brewpi:brewpi /home/brewpi/chamber2
+    sudo chown -R brewpi:brewpi /home/brewpi/chamber3
+    sudo find /home/brewpi/chamber1 -type f -exec chmod g+rwx {} \;
+    sudo find /home/brewpi/chamber2 -type f -exec chmod g+rwx {} \;
+    sudo find /home/brewpi/chamber3 -type f -exec chmod g+rwx {} \;
+    sudo find /home/brewpi/chamber1 -type d -exec chmod g+rwxs {} \;
+    sudo find /home/brewpi/chamber2 -type d -exec chmod g+rwxs {} \;
+    sudo find /home/brewpi/chamber3 -type d -exec chmod g+rwxs {} \;
+    sudo find /var/www/html/chamber1 -type d -exec chmod g+rwxs {} \;
+    sudo find /var/www/html/chamber2 -type d -exec chmod g+rwxs {} \;
+    sudo find /var/www/html/chamber3 -type d -exec chmod g+rwxs {} \;
+    sudo find /var/www/html/chamber1 -type f -exec chmod g+rwx {} \;
+    sudo find /var/www/html/chamber2 -type f -exec chmod g+rwx {} \;
+    sudo find /var/www/html/chamber3 -type f -exec chmod g+rwx {} \;
+
+Now, use the following command to reboot your Pi:
+
+    sudo reboot
 
 
 
