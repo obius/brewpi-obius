@@ -16,13 +16,25 @@ Other
 - 4.7k resistance
 - LCD Screen 4 x 20
 
+2. Software Installation
 
-2. Hardware Installation
+2.1 Install Raspbian
+2.2 Config RPi
+sudo raspi-config
+2.3 Setup WiFi
+#. Create a new file ``8192cu.conf`` in ``/etc/modprobe.d/``:
 
-3. Software Installation
+.. code-block:: bash
+sudo nano /etc/modprobe.d/8192cu.conf
+
+3. Hardware Installation
+
+
 
 4. Configuration
 
 
 References: 
+http://brewpi.readthedocs.io/en/latest/index.html
+https://community.brewpi.com/t/software-install-guide/312
 http://www.instructables.com/id/Multiple-Fermentation-Chamber-Control-with-BrewPi/
