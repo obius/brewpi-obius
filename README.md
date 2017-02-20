@@ -179,6 +179,8 @@ These commands do the following things:
 - Give the group all permissions on all files (third and fourth line)
 - Give the group all permissions and set the sticky bit on all directories (fifth and sixth line).
 
+Alternatively, 
+
     sudo chown -R www-data:www-data /var/www/html/chamber1
     sudo chown -R www-data:www-data /var/www/html/chamber2
     sudo chown -R www-data:www-data /var/www/html/chamber3
