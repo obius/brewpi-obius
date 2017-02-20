@@ -20,18 +20,27 @@ Other
 #2. Software Installation
 
 2.1 Install Raspbian
+--------------------
+
 2.2 Config RPi
-
-
-.. code-block:: bash
+--------------
 
     sudo raspi-config
 
 2.3 Setup WiFi
+--------------
 
 Create a new file ``8192cu.conf`` in ``/etc/modprobe.d/``:
 
     sudo nano /etc/modprobe.d/8192cu.conf
+
+Add this line to the file and save:
+
+    options 8192cu rtw_power_mgnt=0 rtw_enusbss=0
+
+2.4 Setup static IP address
+---------------------------
+
 
 
 #3. Hardware Installation
