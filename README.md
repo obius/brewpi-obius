@@ -22,3 +22,7 @@ Other
 3. Software Installation
 
 4. Configuration
+
+
+References: 
+http://www.instructables.com/id/Multiple-Fermentation-Chamber-Control-with-BrewPi/
