@@ -24,7 +24,7 @@ sudo raspi-config
 
 2.3 Setup WiFi
 
-#. Create a new file ``8192cu.conf`` in ``/etc/modprobe.d/``:
+Create a new file ``8192cu.conf`` in ``/etc/modprobe.d/``:
 
 .. code-block:: bash
 
