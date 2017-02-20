@@ -92,12 +92,32 @@ Install your web server:
 
 BrewPi is configured by a web server, and as such you need what is known as LAMP (Linux, Apache, MySQL, and PHP/Python/Perl) to run it for you. Type the following commands into the terminal:
 
+    sudo apt-get update
     sudo apt-get install apache2
     sudo apt-get install libapache2-mod-php5 php5-cli php5-common php5-cgi
+
+To test your server, you can now visit http://your-rpi-ip/. By default, the root of your web server is /var/www/html/
 
 Now install PHP by typing this into the terminal:
 
     sudo apt-get install php5
+   
+For security reasons, your web server runs as a separate user under Linux, the www-data user. Your files in your /var/www/html/ directory should be owned by this user, otherwise your web server will not have the permissions to access the files. You can change owner of everything in your /var/www/html/ directory to the www-data group and user with the following command. The -R flag recursively chowns all files and subdirectories.
+
+    sudo chown -R www-data:www-data /var/www/html
+
+The current version of BrewPi doesn’t use MySQL. It is recommended to not install it. If you want MySQL anyway, you can install it with these commands:
+
+    sudo apt-get install mysql-server mysql-client php5-mysql
+
+To manage your databases from a web interface, you can install PHPMyAdmin:
+
+    sudo apt-get install libapache2-mod-auth-mysql php5-mysql phpmyadmin
+
+Remember to select Apache2 with the space bar when it comes up! After installation, reboot and test: http://your-rpi-ip/phpmyadmin. Reboot with the command:
+
+    sudo shutdown -r now
+
 
 The Raspbian Wheezy images comes with python 2.7 already installed, but BrewPi uses a few python modules that you have to install yourself:
 - pySerial For communication with the Arduino.
