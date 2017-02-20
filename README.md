@@ -20,13 +20,15 @@ Other
 
 2.1 Install Raspbian
 2.2 Config RPi
-sudo raspi-config
+
+
+.. code-block:: bash
+
+    sudo raspi-config
 
 2.3 Setup WiFi
 
 Create a new file ``8192cu.conf`` in ``/etc/modprobe.d/``:
-
-.. code-block:: bash
 
     sudo nano /etc/modprobe.d/8192cu.conf
 
