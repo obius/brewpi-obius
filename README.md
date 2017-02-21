@@ -67,8 +67,30 @@ The right IP addresses depend on your home network setup.
 You can run ifconfig before editing the interfaces and write the automatically assigned addresses down.
 However, it is recommended to pick a static Ip address that is outside of your router's DHCP range.
 
-Finally, you will need to restart your network interfaces for these changes to occur:
+Then, install SSL client
 
+    sudo apt-get install ssh libio-socket-ssl-perl
+
+Then, install ddclient
+
+    apt-get install ddclient
+
+Then, configure the client
+
+    sudo nano /etc/ddclient.conf
+
+The file must look like:
+
+    use=web, web=dynamicdns.park-your-domain.com/getip
+    protocol=namecheap 
+    server=dynamicdns.park-your-domain.com 
+    login=yourdomain.com
+    password=your password
+    @
+
+Finally, you will need to restart ddclient and your network interfaces for these changes to occur:
+
+    sudo /etc/init.d/ddclient restart
     sudo service networking restart
 
 
