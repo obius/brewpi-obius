@@ -75,6 +75,30 @@ The right IP addresses depend on your home network setup.
 You can run ifconfig before editing the interfaces and write the automatically assigned addresses down.
 However, it is recommended to pick a static Ip address that is outside of your router's DHCP range.
 
+Finally, you will need to restart your network interfaces for these changes to occur:
+
+    sudo systemctl daemon-reload
+    sudo service networking restart
+
+
+2.1.5 Updating programs
+-----------------------
+
+Keep your programs up to date with these commands:
+
+    sudo apt-get update
+    sudo apt-get upgrade
+
+
+2.1.6 Updating firmware
+-----------------------
+Finally, let's also update the pi's firmware, with rpi-update:
+
+    sudo rpi-update
+
+2.1.6 Finish config
+-------------------
+
 Then, install SSL client
 
     sudo apt-get install ssh libio-socket-ssl-perl
@@ -96,28 +120,9 @@ The file must look like:
     password=your password
     @
 
-Finally, you will need to restart ddclient and your network interfaces for these changes to occur:
+Finally, you will need to restart ddclient for these changes to occur:
 
     sudo /etc/init.d/ddclient restart
-    sudo systemctl daemon-reload
-    sudo service networking restart
-
-
-2.1.5 Updating programs
------------------------
-
-Keep your programs up to date with these commands:
-
-    sudo apt-get update
-    sudo apt-get upgrade
-
-
-2.1.6 Updating firmware
------------------------
-Finally, let's also update the pi's firmware, with rpi-update:
-
-    sudo rpi-update
-
 
 2.1.7 Install supporting programs
 ---------------------------------
