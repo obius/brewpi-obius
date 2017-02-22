@@ -60,16 +60,20 @@ And add this line (replace the IP with your routers IP address, the standard gat
 My /etc/network/interfaces file looks like this:
 
     auto lo
+    
     iface lo inet loopback
     iface eth0 inet dhcp
-    allow-hotplug wlan0
+    address 192.168.0.106
+    netmask 255.255.255.0
+    gateway 192.168.0.1    
+    
     auto wlan0
     iface wlan0 inet static
     address 192.168.0.106
     netmask 255.255.255.0
     gateway 192.168.0.1
-    wpa-ssid "I've seen you naked :)"
-    wpa-psk "ym551zsetjt"
+    wpa-ssid "wifi name"
+    wpa-psk "wifi password"
 
 The right IP addresses depend on your home network setup.
 You can run ifconfig before editing the interfaces and write the automatically assigned addresses down.
@@ -98,14 +102,13 @@ Finally, let's also update the pi's firmware, with rpi-update:
 
 2.1.6 Finish config
 -------------------
-
-Then, install SSL client
+Self explanatory we want to be able to send the account password via a secure connection.
 
     sudo apt-get install ssh libio-socket-ssl-perl
 
 Then, install ddclient
 
-    apt-get install ddclient
+    sudo apt-get install ddclient
 
 Then, configure the client
 
@@ -114,6 +117,7 @@ Then, configure the client
 The file must look like:
 
     use=web, web=dynamicdns.park-your-domain.com/getip
+    ssl=yes
     protocol=namecheap 
     server=dynamicdns.park-your-domain.com 
     login=yourdomain.com
@@ -144,6 +148,7 @@ Now install PHP by typing this into the terminal:
 For security reasons, your web server runs as a separate user under Linux, the www-data user. Your files in your /var/www/html/ directory should be owned by this user, otherwise your web server will not have the permissions to access the files. You can change owner of everything in your /var/www/html/ directory to the www-data group and user with the following command. The -R flag recursively chowns all files and subdirectories.
 
     sudo chown -R www-data:www-data /var/www/html
+    sudo /etc/init.d/apache2 restart
 
 The current version of BrewPi doesn’t use MySQL. It is recommended to not install it. If you want MySQL anyway, you can install it with these commands:
 
@@ -168,17 +173,13 @@ All 5 modules can be easily installed with apt-get:
 
     sudo apt-get install python-serial python-simplejson python-configobj python-psutil python-git
 
-Finally, the python script can reprogram the Arduino, but it needs avrdude to do so. Install arduino-core, which includes avrdude.
-
-    sudo apt-get install arduino-core
-
 Let's get the some other Python stuff we need too; type this command:
 
     sudo apt-get install build-essential python-dev python-pipsudo pip install psutil --upgrade
 
-Finally, to install the BrewPi script we will use Git. In a terminal window, type the following commands:
+Finally, the python script can reprogram the Arduino, but it needs avrdude to do so. Install arduino-core, which includes avrdude.
 
-    sudo apt-get install git-core
+    sudo apt-get install arduino-core
 
 2.1.8 Setting up users and permissions
 --------------------------------------
@@ -215,37 +216,38 @@ These commands do the following things:
 - Give the group all permissions on all files (third and fourth line)
 - Give the group all permissions and set the sticky bit on all directories (fifth and sixth line).
 
-Alternatively, 
-
-    sudo chown -R www-data:www-data /var/www/html/chamber1
-    sudo chown -R www-data:www-data /var/www/html/chamber2
-    sudo chown -R www-data:www-data /var/www/html/chamber3
-    sudo chown -R brewpi:brewpi /home/brewpi/chamber1
-    sudo chown -R brewpi:brewpi /home/brewpi/chamber2
-    sudo chown -R brewpi:brewpi /home/brewpi/chamber3
-    sudo find /home/brewpi/chamber1 -type f -exec chmod g+rwx {} \;
-    sudo find /home/brewpi/chamber2 -type f -exec chmod g+rwx {} \;
-    sudo find /home/brewpi/chamber3 -type f -exec chmod g+rwx {} \;
-    sudo find /home/brewpi/chamber1 -type d -exec chmod g+rwxs {} \;
-    sudo find /home/brewpi/chamber2 -type d -exec chmod g+rwxs {} \;
-    sudo find /home/brewpi/chamber3 -type d -exec chmod g+rwxs {} \;
-    sudo find /var/www/html/chamber1 -type d -exec chmod g+rwxs {} \;
-    sudo find /var/www/html/chamber2 -type d -exec chmod g+rwxs {} \;
-    sudo find /var/www/html/chamber3 -type d -exec chmod g+rwxs {} \;
-    sudo find /var/www/html/chamber1 -type f -exec chmod g+rwx {} \;
-    sudo find /var/www/html/chamber2 -type f -exec chmod g+rwx {} \;
-    sudo find /var/www/html/chamber3 -type f -exec chmod g+rwx {} \;
 
 Now, use the following command to reboot your Pi:
 
     sudo reboot
 
 
-
 2.2 Install BrewPi
 --------------------
 
+Finally, to install the BrewPi script we will use Git. In a terminal window, type the following commands:
 
+    sudo apt-get install git-core
+
+The following command will clone the brewpi-script repository into /home/brewpi, an empty directory you should have created in the previous step. The python script will run as the brewpi user, so it is best if we run Git as the brewpi user too, so all new files are owned by the brewpi user. We do this by adding sudo -u brewpi to the command.
+
+    sudo -u brewpi git clone https://github.com/BrewPi/brewpi-script /home/brewpi
+
+To switch to a different branch, you use git checkout:
+
+    cd /home/brewpi
+    sudo -u brewpi git checkout develop
+    
+With the files in version control, updating is easy too:
+
+    cd /home/brewpi
+    sudo -u brewpi git pull
+
+As before, we will clone the remote repository to a local directory. In this case this is the web server’s root directory: /var/www/html. The web server runs as the www-data user, so we will also run git as the www-data user this time.
+
+    ls /var/www/html
+    sudo rm /var/www/html/*
+    sudo -u www-data git clone https://github.com/BrewPi/brewpi-www /var/www/html/
 
 
 #3. Hardware Installation
