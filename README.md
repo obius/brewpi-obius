@@ -43,6 +43,14 @@ Add this line to the file and save:
 
     options 8192cu rtw_power_mgnt=0 rtw_enusbss=0
 
+Alternatively, you can add a line to your crontab to ping your router every minute to keep the connection alive. Open your current users crontab with:
+
+    crontab -e
+
+And add this line (replace the IP with your routers IP address, the standard gateway address in your IP settings):
+
+    * * * * * ping -c 1 192.168.0.1
+
 
 2.1.4 Setup static IP address
 -----------------------------
