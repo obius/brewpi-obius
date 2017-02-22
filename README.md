@@ -157,6 +157,12 @@ The current version of BrewPi doesn’t use MySQL. It is recommended to not inst
 To manage your databases from a web interface, you can install PHPMyAdmin:
 
     sudo apt-get install libapache2-mod-auth-mysql php5-mysql phpmyadmin
+    
+Install also pip
+
+    sudo apt-get install build-essential python-dev python-pip
+    sudo pip install pyserial --upgrade
+    
 
 Remember to select Apache2 with the space bar when it comes up! After installation, reboot and test: http://your-rpi-ip/phpmyadmin. Reboot with the command:
 
@@ -249,6 +255,9 @@ As before, we will clone the remote repository to a local directory. In this cas
     sudo rm /var/www/html/*
     sudo -u www-data git clone https://github.com/BrewPi/brewpi-www /var/www/html/
 
+If your Arduino is using a different serial port than /dev/ttyACM0, you will have add the setting to config.cfg. The altport setting is used when the normal port cannot be found.
+
+    sudo nano /home/brewpi/settings/config.cfg
 
 #3. Hardware Installation
 
