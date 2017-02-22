@@ -65,11 +65,11 @@ My /etc/network/interfaces file looks like this:
     allow-hotplug wlan0
     auto wlan0
     iface wlan0 inet static
-    address 192.168.0.6
+    address 192.168.0.106
     netmask 255.255.255.0
     gateway 192.168.0.1
-    wpa-ssid "YOUR_SSID"
-    wpa-psk "YOUR_PASSPHRASE"
+    wpa-ssid "I've seen you naked :)"
+    wpa-psk "ym551zsetjt"
 
 The right IP addresses depend on your home network setup.
 You can run ifconfig before editing the interfaces and write the automatically assigned addresses down.
@@ -99,6 +99,7 @@ The file must look like:
 Finally, you will need to restart ddclient and your network interfaces for these changes to occur:
 
     sudo /etc/init.d/ddclient restart
+    sudo systemctl daemon-reload
     sudo service networking restart
 
 
