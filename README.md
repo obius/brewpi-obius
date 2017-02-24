@@ -261,7 +261,7 @@ If your Arduino is using a different serial port than /dev/ttyACM0, you will hav
 
 #3. Hardware Installation
 
-
+    sudo apt-get install arduino
 
 #4. Configuration
 
