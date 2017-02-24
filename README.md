@@ -262,6 +262,8 @@ If your Arduino is using a different serial port than /dev/ttyACM0, you will hav
 #3. Hardware Installation
 
     sudo apt-get install arduino
+    
+https://github.com/BrewPi/firmware/releases/tag/0.2.10 
 
 #4. Configuration
 
